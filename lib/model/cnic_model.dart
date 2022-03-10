@@ -5,6 +5,7 @@ class CnicModel {
   String _cnicIssueDate = "";
   String _cnicHolderName = "";
   String _cnicExpiryDate = "";
+  String _nationality = "";
   String _cnicHolderDateOfBirth = "";
 
   @override
@@ -15,6 +16,7 @@ class CnicModel {
         _cnicExpiryDate.isEmpty ? "" : 'Cnic Expiry Date = $cnicExpiryDate\n';
     string +=
         _cnicIssueDate.isEmpty ? "" : 'Cnic Issue Date = $cnicIssueDate\n';
+    string += _nationality.isEmpty ? "" : 'Nationality = $_nationality\n';
     string +=
         _cnicHolderName.isEmpty ? "" : 'Cnic Holder Name = $cnicHolderName\n';
     string += _cnicHolderDateOfBirth.isEmpty
@@ -33,8 +35,14 @@ class CnicModel {
 
   String get cnicHolderDateOfBirth => _cnicHolderDateOfBirth;
 
+  String get nationality => _nationality;
+
   set cnicHolderDateOfBirth(String value) {
     _cnicHolderDateOfBirth = value;
+  }
+
+  set nationality(String value) {
+    _nationality = value;
   }
 
   set cnicExpiryDate(String value) {

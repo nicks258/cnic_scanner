@@ -1,9 +1,10 @@
+import 'package:cnic_scanner/cnic_scanner.dart';
 import 'package:cnic_scanner/model/cnic_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
 import 'src/app_color.dart';
 import 'src/custom_dialog.dart';
-import 'package:cnic_scanner/cnic_scanner.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'CNIC Scanner',
+      title: 'Scanner',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -34,7 +35,8 @@ class _MyHomePageState extends State<MyHomePage> {
       cnicTEController = TextEditingController(),
       dobTEController = TextEditingController(),
       doiTEController = TextEditingController(),
-      doeTEController = TextEditingController();
+      doeTEController = TextEditingController(),
+      nationTEController = TextEditingController();
 
   /// you're required to initialize this model class as method you used
   /// from this package will return a model of CnicModel type
@@ -52,6 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
       dobTEController.text = _cnicModel.cnicHolderDateOfBirth;
       doiTEController.text = _cnicModel.cnicIssueDate;
       doeTEController.text = _cnicModel.cnicExpiryDate;
+      nationTEController.text = _cnicModel.nationality;
     });
   }
 
@@ -75,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               height: 5,
             ),
-            Text('To verify your Account, please enter your CNIC details.',
+            Text('To verify your Account, please enter your card details.',
                 style: TextStyle(
                     color: Color(kLightGreyColor),
                     fontSize: 15.0,
@@ -91,6 +94,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   _dataField(
                       text: 'Name', textEditingController: nameTEController),
                   _cnicField(textEditingController: cnicTEController),
+                  _dataField(
+                      text: 'Nationality',
+                      textEditingController: nationTEController),
                   _dataField(
                       text: 'Date of Birth',
                       textEditingController: dobTEController),
@@ -152,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'CNIC Number',
+                    'ID Number',
                     style: TextStyle(
                         color: Color(kDarkGreenColor),
                         fontSize: 13.0,
@@ -237,7 +243,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: TextField(
                       controller: textEditingController,
                       decoration: InputDecoration(
-                        hintText: (text == "Name") ? "User Name" : 'DD/MM/YYYY',
+                        hintText: text,
                         border: InputBorder.none,
                         isDense: true,
                         hintStyle: TextStyle(
@@ -293,7 +299,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ]),
         ),
         padding: const EdgeInsets.all(12.0),
-        child: Text('Scan CNIC', style: TextStyle(fontSize: 18)),
+        child: Text('Scan Id', style: TextStyle(fontSize: 18)),
       ),
     );
   }

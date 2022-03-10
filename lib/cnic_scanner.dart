@@ -1,10 +1,13 @@
 library cnic_scanner;
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'model/cnic_model.dart';
 
 class CnicScanner {
@@ -40,34 +43,75 @@ class CnicScanner {
     final RecognisedText recognisedText =
         await textDetector.processImage(imageToScan);
     bool isNameNext = false;
+    String name = "";
     for (TextBlock block in recognisedText.blocks) {
       for (TextLine line in block.lines) {
-        if (isNameNext) {
-          _cnicDetails.cnicHolderName = line.text;
-          isNameNext = false;
-        }
-        if (line.text.toLowerCase() == "name" ||
-            line.text.toLowerCase() == "nane" ||
-            line.text.toLowerCase() == "nam" ||
-            line.text.toLowerCase() == "ame") {
+        String selectedText = line.text;
+        if (selectedText.contains("Name:")) {
+          for (final i in line.elements) {
+            if (i.text.toLowerCase() != "name:") {
+              name = name + i.text + " ";
+            }
+          }
+          log("your name is:" + name);
+          _cnicDetails.cnicHolderName = name.substring(0, name.length - 1);
           isNameNext = true;
         }
-        for (TextElement element in line.elements) {
-          String selectedText = element.text;
-          if (selectedText != null &&
-              selectedText.length == 15 &&
-              selectedText.contains("-", 5) &&
-              selectedText.contains("-", 13)) {
-            _cnicDetails.cnicNumber = selectedText;
-          } else if (selectedText != null &&
-              selectedText.length == 10 &&
-              ((selectedText.contains("/", 2) &&
-                      selectedText.contains("/", 5)) ||
-                  (selectedText.contains(".", 2) &&
-                      selectedText.contains(".", 5)))) {
-            cnicDates.add(selectedText.replaceAll(".", "/"));
-          }
+        if (selectedText.length == 18 &&
+            isNumeric(selectedText.substring(0, 1)) &&
+            selectedText.contains("-", 3) &&
+            selectedText.contains("-", 8) &&
+            selectedText.contains("-", 16)) {
+          _cnicDetails.cnicNumber = line.text;
+          log("your id number is:" + line.text);
         }
+        if (selectedText.toLowerCase().contains("nationality")) {
+          String nation = "";
+          for (final i in line.elements) {
+            log("su" + i.text);
+            if (i.text != "Nationality:") {
+              nation += i.text;
+            }
+          }
+          _cnicDetails.nationality = nation;
+        }
+        log(line.text);
+        if (_cnicDetails.nationality != "" &&
+            _cnicDetails.cnicHolderName != "" &&
+            _cnicDetails.cnicNumber != "") {
+          isFrontScan = true;
+          Fluttertoast.showToast(
+              msg: "Scan Back Side Now",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              backgroundColor: Colors.grey,
+              textColor: Colors.white,
+              fontSize: 16.0);
+        }
+        // if (isNameNext) {
+        //   _cnicDetails.cnicHolderName = line.text;
+        //   isNameNext = false;
+        // }
+        // if (line.text.toLowerCase() == "Name" ||
+        //     line.text.toLowerCase() == "nane" ||
+        //     line.text.toLowerCase() == "nam" ||
+        //     line.text.toLowerCase() == "ame") {
+        //   isNameNext = true;
+        // }
+        // for (TextElement element in line.elements) {
+        //   String selectedText = element.text;
+        //   if (selectedText.length == 15 &&
+        //       selectedText.contains("-", 5) &&
+        //       selectedText.contains("-", 13)) {
+        //     _cnicDetails.cnicNumber = selectedText;
+        //   } else if (selectedText.length == 10 &&
+        //       ((selectedText.contains("/", 2) &&
+        //               selectedText.contains("/", 5)) ||
+        //           (selectedText.contains(".", 2) &&
+        //               selectedText.contains(".", 5)))) {
+        //     cnicDates.add(selectedText.replaceAll(".", "/"));
+        //   }
+        // }
       }
     }
     if (cnicDates.length > 0 &&
@@ -141,5 +185,9 @@ class CnicScanner {
       dates.add(format.format(tempList[i]));
     }
     return dates;
+  }
+
+  bool isNumeric(String s) {
+    return double.tryParse(s) != null;
   }
 }
