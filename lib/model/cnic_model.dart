@@ -6,6 +6,7 @@ class CnicModel {
   String _cnicHolderName = "";
   String _cnicExpiryDate = "";
   String _nationality = "";
+  String _sex = "";
   String _cnicHolderDateOfBirth = "";
 
   @override
@@ -34,7 +35,7 @@ class CnicModel {
   String get cnicExpiryDate => _cnicExpiryDate;
 
   String get cnicHolderDateOfBirth => _cnicHolderDateOfBirth;
-
+  String get sex => _sex;
   String get nationality => _nationality;
 
   set cnicHolderDateOfBirth(String value) {
@@ -43,6 +44,10 @@ class CnicModel {
 
   set nationality(String value) {
     _nationality = value;
+  }
+
+  set sex(String value) {
+    _sex = value;
   }
 
   set cnicExpiryDate(String value) {

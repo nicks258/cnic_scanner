@@ -7,18 +7,28 @@ import 'src/app_color.dart';
 import 'src/custom_dialog.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Scanner',
-      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
       theme: ThemeData(
+        // This is the theme of your application.
+        //
+        // Try running your application with "flutter run". You'll see the
+        // application has a blue toolbar. Then, without quitting the app, try
+        // changing the primarySwatch below to Colors.green and then invoke
+        // "hot reload" (press "r" in the console where you ran "flutter run",
+        // or simply save your changes to "hot reload" in a Flutter IDE).
+        // Notice that the counter didn't reset back to zero; the application
+        // is not restarted.
         primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(),
     );
@@ -52,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
       nameTEController.text = _cnicModel.cnicHolderName;
       cnicTEController.text = _cnicModel.cnicNumber;
       dobTEController.text = _cnicModel.cnicHolderDateOfBirth;
-      doiTEController.text = _cnicModel.cnicIssueDate;
+      doiTEController.text = _cnicModel.sex;
       doeTEController.text = _cnicModel.cnicExpiryDate;
       nationTEController.text = _cnicModel.nationality;
     });
@@ -67,23 +77,24 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 18,
             ),
-            Text('Enter ID Card Details',
+            const Text('Enter ID Card Details',
                 style: TextStyle(
                     color: Color(kDarkGreyColor),
                     fontSize: 23.0,
                     fontWeight: FontWeight.bold)),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
-            Text('To verify your Account, please enter your card details.',
+            const Text(
+                'To verify your Account, please enter your card details.',
                 style: TextStyle(
                     color: Color(kLightGreyColor),
                     fontSize: 15.0,
                     fontWeight: FontWeight.w500)),
-            SizedBox(
+            const SizedBox(
               height: 35,
             ),
             Expanded(
@@ -101,12 +112,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       text: 'Date of Birth',
                       textEditingController: dobTEController),
                   _dataField(
-                      text: 'Date of Card Issue',
-                      textEditingController: doiTEController),
+                      text: 'Gender', textEditingController: doiTEController),
                   _dataField(
                       text: 'Date of Card Expire',
                       textEditingController: doeTEController),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   _getScanCNICBtn(),
@@ -136,11 +146,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 45,
                 margin: const EdgeInsets.only(left: 3.0, right: 7.0),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                       colors: [
-                        const Color(kDeepDarkGreenColor),
-                        const Color(kDarkGreenColor),
-                        const Color(kGradientGreyColor),
+                        Color(kDeepDarkGreenColor),
+                        Color(kDarkGreenColor),
+                        Color(kGradientGreyColor),
                       ],
                       stops: [
                         0.0,
@@ -157,14 +167,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'ID Number',
                     style: TextStyle(
                         color: Color(kDarkGreenColor),
                         fontSize: 13.0,
                         fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -174,14 +184,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       Expanded(
                         child: TextField(
                           controller: textEditingController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: '41000-0000000-0',
                             hintStyle: TextStyle(color: Color(kLightGreyColor)),
                             border: InputBorder.none,
                             isDense: true,
                             contentPadding: EdgeInsets.only(left: 5.0),
                           ),
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Color(kDarkGreyColor),
                               fontWeight: FontWeight.bold),
                           textInputAction: TextInputAction.done,
@@ -204,7 +214,7 @@ class _MyHomePageState extends State<MyHomePage> {
       {required String text,
       required TextEditingController textEditingController}) {
     return Card(
-        shadowColor: Color(kShadowColor),
+        shadowColor: const Color(kShadowColor),
         elevation: 5,
         margin: const EdgeInsets.only(
           top: 10,
@@ -218,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.only(left: 5),
               child: Icon(
                 (text == "Name") ? Icons.person : Icons.date_range,
-                color: Color(kDarkGreenColor),
+                color: const Color(kDarkGreenColor),
                 size: 17,
               ),
             ),
@@ -232,7 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         const EdgeInsets.only(left: 15.0, top: 5, bottom: 3),
                     child: Text(
                       text.toUpperCase(),
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Color(kDarkGreenColor),
                           fontSize: 12,
                           fontWeight: FontWeight.bold),
@@ -246,13 +256,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         hintText: text,
                         border: InputBorder.none,
                         isDense: true,
-                        hintStyle: TextStyle(
+                        hintStyle: const TextStyle(
                             color: Color(kLightGreyColor),
                             fontSize: 14,
                             fontWeight: FontWeight.bold),
-                        contentPadding: EdgeInsets.all(0),
+                        contentPadding: const EdgeInsets.all(0),
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Color(kDarkGreyColor),
                           fontWeight: FontWeight.bold),
                       textInputAction: TextInputAction.done,
@@ -270,9 +280,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _getScanCNICBtn() {
-    return RaisedButton(
-      elevation: 5,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+    return ElevatedButton(
+      style: ButtonStyle(
+          elevation: MaterialStateProperty.all(5),
+          shape: MaterialStateProperty.all(RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0)))),
       onPressed: () {
         /// this is the custom dialog that takes 2 arguments "Camera" and "Gallery"
         showDialog(
@@ -285,12 +297,10 @@ class _MyHomePageState extends State<MyHomePage> {
               });
             });
       },
-      textColor: Colors.white,
-      padding: EdgeInsets.all(0.0),
       child: Container(
         alignment: Alignment.center,
         width: 500,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
           gradient: LinearGradient(colors: <Color>[
             Color(kDeepDarkGreenColor),
@@ -299,7 +309,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ]),
         ),
         padding: const EdgeInsets.all(12.0),
-        child: Text('Scan Id', style: TextStyle(fontSize: 18)),
+        child: const Text('Scan Id', style: TextStyle(fontSize: 18)),
       ),
     );
   }
