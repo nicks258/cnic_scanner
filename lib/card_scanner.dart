@@ -29,12 +29,14 @@ class CardScanner {
     if (image == null) {
       return Future.value(cardDetails);
     } else {
-      return await scanCnic(imageToScan: InputImage.fromFilePath(image.path));
+      return await scanCnic(
+          imageToScan: InputImage.fromFilePath(image.path), image: image);
     }
   }
 
   /// this method will process the images and extract information from the card
-  Future<CardModel> scanCnic({required InputImage imageToScan}) async {
+  Future<CardModel> scanCnic(
+      {required InputImage imageToScan, required XFile image}) async {
     List<String> cardDates = [];
     GoogleMlKit.vision.languageModelManager();
     TextDetector textDetector = GoogleMlKit.vision.textDetector();
@@ -106,6 +108,7 @@ class CardScanner {
     if (cardDates.length > 0) {
       cardDetails.cardHolderDateOfBirth = cardDates[0];
     }
+    cardDetails.cardFile = image;
     return Future.value(cardDetails);
   }
 

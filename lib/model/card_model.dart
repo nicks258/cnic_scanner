@@ -1,3 +1,5 @@
+import 'package:image_picker/image_picker.dart';
+
 /// this class is used to store data from package and display data on user screen
 
 class CardModel {
@@ -7,6 +9,7 @@ class CardModel {
   String _cardHolderNationality = "";
   String _cardHolderGender = "";
   String _cardHolderDateOfBirth = "";
+  XFile? _cardFile;
   //
   // @override
   // String toString() {
@@ -31,7 +34,7 @@ class CardModel {
   String get cardHolderDateOfBirth => _cardHolderDateOfBirth;
   String get cardHolderGender => _cardHolderGender;
   String get cardHolderNationality => _cardHolderNationality;
-
+  XFile? get cardFile => _cardFile;
   set cardHolderDateOfBirth(String value) {
     _cardHolderDateOfBirth = value;
   }
@@ -50,6 +53,10 @@ class CardModel {
 
   set cardHolderName(String value) {
     _cardHolderName = value;
+  }
+
+  set cardFile(XFile? value) {
+    _cardFile = value;
   }
 
   set cardNumber(String value) {
