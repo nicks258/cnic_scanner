@@ -1,5 +1,5 @@
-import 'package:cnic_scanner/cnic_scanner.dart';
-import 'package:cnic_scanner/model/cnic_model.dart';
+import 'package:cnic_scanner/card_scanner.dart';
+import 'package:cnic_scanner/model/card_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -50,21 +50,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   /// you're required to initialize this model class as method you used
   /// from this package will return a model of CnicModel type
-  CnicModel _cnicModel = CnicModel();
+  CardModel _cnicModel = CardModel();
 
   Future<void> scanCnic(ImageSource imageSource) async {
     /// you will need to pass one argument of "ImageSource" as shown here
-    CnicModel cnicModel =
-        await CnicScanner().scanImage(imageSource: imageSource);
+    CardModel cnicModel =
+        await CardScanner().scanImage(imageSource: imageSource);
     if (cnicModel == null) return;
     setState(() {
       _cnicModel = cnicModel;
-      nameTEController.text = _cnicModel.cnicHolderName;
-      cnicTEController.text = _cnicModel.cnicNumber;
-      dobTEController.text = _cnicModel.cnicHolderDateOfBirth;
-      doiTEController.text = _cnicModel.sex;
-      doeTEController.text = _cnicModel.cnicExpiryDate;
-      nationTEController.text = _cnicModel.nationality;
+      nameTEController.text = _cnicModel.cardHolderName;
+      cnicTEController.text = _cnicModel.cardNumber;
+      dobTEController.text = _cnicModel.cardHolderDateOfBirth;
+      doiTEController.text = _cnicModel.cardHolderGender;
+      doeTEController.text = _cnicModel.cardExpiry;
+      nationTEController.text = _cnicModel.cardHolderNationality;
     });
   }
 

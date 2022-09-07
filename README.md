@@ -10,7 +10,7 @@ Add following dependency in pubspec.yaml file. And add this import to your file.
 cnic_scanner: latest version
 image_picker: latest version
 
-import 'package:cnic_scanner/cnic_scanner.dart';
+import 'package:cnic_scanner/card_scanner.dart';
 ```
 
 ## Quick Start
