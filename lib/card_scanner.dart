@@ -49,14 +49,12 @@ class CardScanner {
     for (TextBlock block in recognisedText.blocks) {
       for (TextLine line in block.lines) {
         String selectedText = line.text;
-        print("line -> ${selectedText}");
         if (selectedText.contains("Name")) {
           for (final i in line.elements) {
             if (i.text.toLowerCase() != "name") {
               name = name + i.text + " ";
             }
           }
-          log("your name is:" + name);
           cardDetails.cardHolderName = name.substring(0, name.length - 1);
         }
         if (selectedText.length == 1 &&
@@ -69,15 +67,11 @@ class CardScanner {
           log(cardDetails.cardHolderGender);
         }
         if (line.text.length == 12 && isNumeric(line.text)) {
-          log("civi ${line.text}");
           cardDetails.cardNumber = line.text;
         }
-        log(selectedText);
         if (selectedText.toLowerCase().contains("nationality")) {
           String nation = "";
-          log("nation ${line.text}");
           for (final i in line.elements) {
-            log("su" + i.text);
             if (i.text.toLowerCase() != "nationality") {
               nation = i.text.substring(0);
             }
