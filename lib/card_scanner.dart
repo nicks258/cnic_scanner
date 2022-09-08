@@ -2,7 +2,7 @@ library cnic_scanner;
 
 import 'dart:developer';
 
-import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -38,15 +38,18 @@ class CardScanner {
   Future<CardModel> scanCnic(
       {required InputImage imageToScan, required XFile image}) async {
     List<String> cardDates = [];
-    GoogleMlKit.vision.languageModelManager();
-    TextDetector textDetector = GoogleMlKit.vision.textDetector();
-    final RecognisedText recognisedText =
-        await textDetector.processImage(imageToScan);
+    final textRecognizer = TextRecognizer();
+    final RecognizedText recognisedText =
+        await textRecognizer.processImage(imageToScan);
+    // TextDetector textDetector = GoogleMlKit.vision.textDetector();
+    // final RecognisedText recognisedText =
+    //     await textDetector.processImage(imageToScan);
     String name = "";
     String sex = "";
     for (TextBlock block in recognisedText.blocks) {
       for (TextLine line in block.lines) {
         String selectedText = line.text;
+        print("line -> ${selectedText}");
         if (selectedText.contains("Name")) {
           for (final i in line.elements) {
             if (i.text.toLowerCase() != "name") {
@@ -56,21 +59,18 @@ class CardScanner {
           log("your name is:" + name);
           cardDetails.cardHolderName = name.substring(0, name.length - 1);
         }
-        if (selectedText.contains("Sex")) {
-          for (final i in line.elements) {
-            if (i.text.toLowerCase() != "sex") {
-              sex = sex + i.text + " ";
-            }
-          }
-          if (sex.contains("M")) {
+        if (selectedText.length == 1 &&
+            (selectedText == 'M' || selectedText == 'F')) {
+          if (selectedText.contains("M")) {
             cardDetails.cardHolderGender = "Male";
           } else {
             cardDetails.cardHolderGender = "Female";
           }
           log(cardDetails.cardHolderGender);
         }
-        if (selectedText.toLowerCase().contains("civil")) {
-          cardDetails.cardNumber = line.elements[3].text;
+        if (line.text.length == 12 && isNumeric(line.text)) {
+          log("civi ${line.text}");
+          cardDetails.cardNumber = line.text;
         }
         log(selectedText);
         if (selectedText.toLowerCase().contains("nationality")) {
